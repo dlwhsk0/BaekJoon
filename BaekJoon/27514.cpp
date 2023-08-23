@@ -13,7 +13,8 @@ int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
 
-    int n, l;
+    int n;
+    long long l; // ~2^62는 long long
     cin >> n;
 
     for (int i = 0; i < n; i++) { // 입력
@@ -30,7 +31,7 @@ int main() {
 
     for (int i = 62; i >= 0; i--) {
         if (arr[i] != 0) {
-            cout << pow(2, i);
+            cout << pow(2, i); // 2^i 출력
             return 0;
         }
     }
