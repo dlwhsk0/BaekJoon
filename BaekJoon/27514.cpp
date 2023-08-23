@@ -1,61 +1,39 @@
 #include <iostream>
 #include <algorithm>
-#include <vector>
+#include <cmath> // log2(), pow()
 using namespace std;
 
-vector<long long> v;
-int n, i, k;
-long long a, ans = 0;
-bool flag;
+// 1. 입력받는 수를 모두 log2 처리 해서 지수들만 구해 배열에 저장한다.
+// 2. 앞에서부터 2로 나눠 짝이 되는 수 만큼 다음 지수의 수에 더해준다.
+// 3. 뒤에서부터 검사해 가장 큰 수를 찾아내 제곱해 원래의 수를 구해 답을 구한다.
 
-// 처음 걸 a 넣고 쭉 돌리다가 똑같은게 나오면(0 제외) 그걸 0으로 만들고 a를 두배로 바꿈
-// 다시 처음으로 돌아와서 돌리기
-// a가 마지막까지가면 그때 종료
-
-void number() {
-    for (i = 0; i < n; i++) {
-        if (v[i] != 0) {
-            cout << "* " << i << ": " << v[i] << '\n';
-            for (k = 0; k < n; k++) {
-                if (k != i && v[k] == v[i]) {
-                    cout << "*** " << k << ": " << v[k] << '\n';
-                    v[i] *= 2;
-                    v[k] = 0;
-                    flag = true;
-                    for (long long a : v) { cout << a << " "; }
-                    cout << '\n';
-                }
-            }
-        }
-    }
-}
+int arr[63]; // 2의 0~62 제곱의 개수
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
 
+    int n, l;
     cin >> n;
 
     for (int i = 0; i < n; i++) { // 입력
-        cin >> a;
-        if (a != 0) { v.push_back(a); } // 0이 아닌 경우에만 삽입
+        cin >> l;
+        if (l != 0) { // log2 처리로 지수를 뽑아내 개수를 1 증가한다.
+            l = log2(l);
+            arr[l]++;
+        }
     }
 
-    for (long long a : v) { cout << a << " "; }
-    cout << '\n';
-
-    n = (int)v.size();
-    flag = true;
-
-    while (flag) {
-        flag = false;
-        number();
-        cout << "끝의 flag는?: " << flag << '\n';
+    for (int i = 0; i < 62; i++) {
+        arr[i + 1] += arr[i] / 2;
     }
 
-    for (long long a : v) { ans = max(a, ans); }
-
-    cout << ans;
+    for (int i = 62; i >= 0; i--) {
+        if (arr[i] != 0) {
+            cout << pow(2, i);
+            return 0;
+        }
+    }
 
     return 0;
 }
