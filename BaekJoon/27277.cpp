@@ -32,7 +32,8 @@ int main() {
     for (int i = 0; i < n / 2; i++) {
         ans += (v[n - 1 - i] - v[i]);
     }
-    if (n % 2) { ans += v[n / 2]; }
+
+    if (n % 2) { ans += v[n / 2]; } // 첫번째 숫자 더하기
     else { ans += v[n / 2 - 1]; }
 
     cout << ans;
