@@ -4,14 +4,8 @@
 #include <vector>
 using namespace std;
 
-/*
-a 원소들 오름차순
-m개 질문: 정수 d가
-b에서 가장 먼저 등장한 위치
-오름차순과 이분 탐색?
-이분탐색으로 찾고 찾아내면 가장 먼저인 위치를 찾아야함
-존재하지 않으면 -1
-*/
+// 이분탐색으로 찾고 찾아내면 가장 먼저인 위치를 찾아야함
+// 없을 때까지 이분 탐색
 
 vector<long long> v;
 
@@ -19,10 +13,12 @@ int binary_search(long long num, int start, int end) {
     int mid = (start + end) / 2;
     if (start > end) { return -1; }
 
-    if (v[mid] == num) {
-        for (int i = mid - 1; i >= 0; i--) {
-            if (v[i] == num) { mid = i; }
-            else { break; }
+    if (v[mid] == num) { // 찾으면 더 없을 때까지 이분 탐색
+        int temp = mid;
+        while (true) {
+            temp = binary_search(num, 0, temp - 1);
+            if (temp == -1) { break; } // 존재하지 않으면 끝
+            else { mid = temp; }
         }
         return mid;
     }
