@@ -1,49 +1,45 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <deque>
 using namespace std;
-
-//1. 덱에 넣기
-//2. 가장 앞의 수가 1이면 (2) 수행
-//(2) 수행 시 front가 0이면 계속 pop_front() 수행
-//3. 아니면 가장 1의 자리 수 없애기 (1의 자리 - 1)번 (1) 수행하고 (2) 한번 수행
-//4. 위 과정을 한 자리 수만 남을 때까지 반복
-//5. 마지막 수만큼 횟수 증가하고 출력
-
-deque<int> dq;
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
 
-    int ans = 0;
+    int ans = 0, n;
+    bool m, flag;
     string str;
-    cin >> str;
 
-    //cout << "*** ans: " << ans << '\n';
-    int len = str.length();
-    for (int i = 0; i < len; i++) { dq.push_back((int)(str[i]-'0')); }
+    cin >> n;
 
-    while (dq.size() > 1) {
-        if (dq.front() == 1) {
-            ans++;
-            dq.pop_front();
-            while (dq.front() == 0 && dq.size() > 1) { dq.pop_front(); }
-            //cout << "*** ans: " << ans << '\n';
-        }
-        else {
-            if (dq.back() == 0) {
-                ans++;
+    while (true) {
+        m = true;
+        str = to_string(n);
 
+        for (int i = 0; i < str.length(); i++) {
+            if (str[i] == '1') { // 숫자 중에 1이 있는 경우
+                flag = false;
+                string temp = "";
+                for (int k = 0; k < str.length(); k++) {
+                    if (k == i) { continue; } // 그 1을 빼고 새로운 0을 만들기
+
+                    if (str[k] != '0') { flag = true; } // 숫자 사이에 0이 있는 경우 같이 들어가도록 하기
+                    if (flag) { temp += str[k]; }
+                }
+                str = temp;
+                m = false;
+                break;
             }
-            ans += dq.back();
-            dq.pop_back();
-            //cout << "*** ans: " << ans << '\n';
         }
+        ans++;
+
+        if (str == "") { break; } // 숫자가 남지 않으면 루프 종료
+
+        n = stoi(str);
+        if (m) { n--; }
     }
 
-    ans += dq.back();
     cout << ans;
 
     return 0;
