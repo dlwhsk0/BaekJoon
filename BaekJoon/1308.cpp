@@ -45,7 +45,7 @@ int main() {
     ans = day2 - day1;
     ans += leapyear(d, dday);
 
-    if (ans >= 365243) { cout << "gg"; }
+    if (ans >= 365243) { cout << "gg"; } // 1³âÀº 365.2422ÀÏ
     else { cout << "D-" << ans; }
 
     return 0;
