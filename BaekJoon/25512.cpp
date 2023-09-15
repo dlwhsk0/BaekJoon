@@ -6,32 +6,34 @@
 using namespace std;
 
 // 신장 트리: n개의 정점을 모두 연결할 수 있는 n-1개의 간선으로 이루어짐
-// BFS? DFS? 하면서 흰백 번갈아가면서 칠하면 되는 거 아닐까 뭐가 더 빠른거지
 // 0번을 w, b로 시작하는 두 가지 경우가 있음
+// DFS 하면서 흰백 번갈아가면서 칠하기
 
 int white[100001]; // 흰색 색칠비용
 int black[100001]; // 검은색 색칠비용
 bool visit[100001];
 vector<int> v[100001];
+bool color; // 0: white, 1: black
 int n;
+long long cnt, ans;
 
-void bfs(int s) {
-    queue<int> q;
-    q.push(s);
-    visit[s] = true;
+void colorflag(int x) {
+    if (color) { cnt += black[x]; }
+    else { cnt += white[x]; }
+}
 
-    while (!q.empty()) {
-        int x = q.front();
-        q.pop();
-        cout << x << '\n';
-        for (int i = 0; i < n; i++) {
-            int y = v[x][i];
-            if (!visit[y]) {
-                q.push(y);
-                visit[y] = true;
-            }
+void dfs(int x) {
+    visit[x] = true; bool cur = color;
+    colorflag(x);
+
+    for (int i = 0; i < v[x].size(); i++) {
+        int y = v[x][i];
+        if (!visit[y]) { // 방문하지 않았을 경우
+            color = !color;
+            dfs(y); // 색 바꾸면서 내려가기
         }
     }
+    color = !cur; // 올라갈 때 해당 노드의 반대 색으로 바꾸기
 }
 
 int main() {
@@ -41,14 +43,20 @@ int main() {
     cin >> n;
     int a, b;
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n - 1; i++) { // 간선 정보 입력
         cin >> a >> b;
         v[a].push_back(b);
     }
 
-    for (int i = 0; i < n; i++) { cin >> white[i] >> black[i] ; }
+    for (int i = 0; i < n; i++) { cin >> white[i] >> black[i]; } // 색칠 비용 입력
 
-    bfs(0);
+    dfs(0); // 0번 노드가 white인 경우
+
+    ans = cnt; cnt = 0; fill_n(visit, n, 0); // 초기화
+    dfs(0); // 0번 노드가 black인 경우
+
+    ans = min(cnt, ans); // 최솟값 저장
+    cout << ans;
 
     return 0;
 }
