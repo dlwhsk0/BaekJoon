@@ -23,7 +23,7 @@ void colorflag(int x) {
 }
 
 void dfs(int x) {
-    visit[x] = true; bool cur = color;
+    visit[x] = true;
     colorflag(x);
 
     for (int i = 0; i < v[x].size(); i++) {
@@ -33,7 +33,7 @@ void dfs(int x) {
             dfs(y); // 색 바꾸면서 내려가기
         }
     }
-    color = !cur; // 올라갈 때 해당 노드의 반대 색으로 바꾸기
+    color = !color;
 }
 
 int main() {
