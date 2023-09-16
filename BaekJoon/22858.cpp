@@ -3,7 +3,8 @@
 #include <vector>
 using namespace std;
 
-// 셔플 규칙에 써있는 숫자로 카드 위치를 옮겨줌
+// 셔플한 걸 원상 복구
+// 셔플 규칙에 써있는 숫자로 카드 위치를 옮겨주면 된다!
 
 bool compare(const pair<int, int>& a, const pair<int, int>& b) {
     return a.second < b.second; // second로 오름차순 정렬
