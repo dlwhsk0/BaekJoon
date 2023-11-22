@@ -30,7 +30,7 @@ int main() {
         }
 
         cin >> bnum;
-        for (int j = 0; j < anum; j++) {
+        for (int j = 0; j < bnum; j++) {
             cin >> bb;
             b[bb]++;
         }
@@ -44,6 +44,6 @@ int main() {
         }
         if (check) { cout << "D\n"; }
     }
-    
+
     return 0;
 }
